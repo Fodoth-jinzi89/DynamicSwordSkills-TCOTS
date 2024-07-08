@@ -2,3 +2,21 @@
 plugins {
     id 'com.gtnewhorizons.gtnhconvention'
 }
+
+
+version = "1.7.10-final"
+group= "dynamicswordskills" 
+archivesBaseName = "DynamicSwordSkills-1.7.10"
+
+sourceCompatibility = targetCompatibility = "1.8"
+
+def embedMixin = !project.hasProperty("nomixin");
+if(!embedMixin){
+    version += "-nomixin"
+}
+
+tasks.create('buildNoMixin', Exec) {
+    description 'Builds mod without embed'
+    group 'dynamicswordskills'
+    commandLine 'build', '-Pnomixin'
+}

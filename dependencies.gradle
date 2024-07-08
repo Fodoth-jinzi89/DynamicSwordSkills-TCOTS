@@ -33,6 +33,19 @@
  *
  * For more details, see https://docs.gradle.org/8.0.1/userguide/java_library_plugin.html#sec:java_library_configurations_graph
  */
+def embedMixin = !project.hasProperty("nomixin");
 dependencies {
     runtimeOnlyNonPublishable("com.github.GTNewHorizons:NotEnoughItems:2.5.4-GTNH:dev")
+	
+	    if(embedMixin){
+        // Normal Jar will include built in Mixins
+        shadowImplementation("org.spongepowered:mixin:0.7.11-SNAPSHOT"){
+            // Mixin includes a lot of dependencies that are too up-to-date
+            exclude module: 'launchwrapper'
+            exclude module: 'guava'
+            exclude module: 'gson'
+            exclude module: 'commons-io'
+            exclude module: 'log4j-core'
+        }
+    }
 }

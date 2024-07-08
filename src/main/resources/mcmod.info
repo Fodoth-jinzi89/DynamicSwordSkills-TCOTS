@@ -3,12 +3,15 @@
 	"modList": [{
 		"modid": "${modId}",
 		"name": "${modName}",
-		"description": "An example mod for Minecraft 1.7.10 with Forge focused on a stable setup.",
+		"description": "Dynamic Sword Skills for The Creator Of The Swords",
 		"version": "${modVersion}",
 		"mcversion": "${minecraftVersion}",
-		"url": "https://github.com/SinTh0r4s/MyMod",
+		"url": "http://www.minecraftforum.net/topic/2458957",
 		"updateUrl": "",
-		"authorList": ["SinTho0r4s"],
+		"authorList": [
+			"coolAlias",
+			"Fodoth_jinzi89"
+		],
 		"credits": "",
 		"logoFile": "",
 		"screenshots": [],
@@ -19,3 +22,4 @@
 		"useDependencyInformation": false
 	}]
 }
+

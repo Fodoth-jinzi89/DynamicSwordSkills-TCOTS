@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "minVersion": "0.8.5-GTNH",
+  "package": "dynamicswordskills.mixin",
+  "plugin": "dynamicswordskills.mixin.DynamicSwordSkillsMixinPlugin",
+  "refmap": "mixins.dynamicswordskills.refmap.json",
+  "target": "@env(DEFAULT)",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [],
+  "client": [],
+  "server": []
+}
