@@ -109,17 +109,17 @@ public class Parry extends SkillActive
 
 	/** Number of ticks that skill will be considered active */
 	private int getActiveTime() {
-		return 9 + (level / 2);
+		return 9 + (level * 2);
 	}
 
 	/** Number of ticks before player may attempt to use this skill again */
 	private int getParryDelay() {
-		return (5 - (level / 2));
+		return (5 - level);
 	}
 
 	/** The maximum number of attacks that may be parried per use of the skill */
 	private int getMaxParries() {
-		return (1 + level) / 2;
+		return (1 + level);
 	}
 
 	/**
@@ -132,14 +132,14 @@ public class Parry extends SkillActive
 		if (attacker instanceof EntityPlayer) {
 			penalty += Config.getDisarmPenalty() * DSSPlayerInfo.get((EntityPlayer) attacker).getSkillLevel(this);
 		}
-		return ((level * 0.1F) - penalty + bonus);
+		return 0*((level * 0.1F) - penalty + bonus);
 	}
 
 	/**
 	 * Returns the strength of the knockback effect when an attack is parried
 	 */
 	public float getKnockbackStrength() {
-		return 0.4F; // 0.5F is the base line per blocking with a shield
+		return 1.0F + 0.5F*level; // 0.5F is the base line per blocking with a shield
 	}
 
 	@Override
@@ -220,7 +220,7 @@ public class Parry extends SkillActive
 	public boolean onBeingAttacked(EntityPlayer player, DamageSource source) {
 		if (source.getEntity() instanceof EntityLivingBase) {
 			EntityLivingBase attacker = (EntityLivingBase) source.getEntity();
-			if (attacksParried < getMaxParries() && parryTimer > getParryDelay() && attacker.getHeldItem() != null && PlayerUtils.isWeapon(player.getHeldItem())) {
+			if (attacksParried < getMaxParries() && parryTimer > getParryDelay() && PlayerUtils.isWeapon(player.getHeldItem())) {
 				if (player.worldObj.rand.nextFloat() < getDisarmChance(player, attacker)) {
 					PlayerUtils.dropHeldItem(attacker);
 				}

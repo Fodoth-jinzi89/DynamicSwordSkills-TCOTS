@@ -81,9 +81,9 @@ public class LeapingBlow extends SkillActive
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(List<String> desc, EntityPlayer player) {
-		desc.add(getDamageDisplay(level, true));
-		desc.add(getRangeDisplay(3.0F + 0.5F * level));
-		desc.add(getAreaDisplay(0.5F + 0.25F * level));
+		desc.add(getDamageDisplay(40+level * 10, false) + "%");
+		desc.add(getRangeDisplay(3.0F + 1.0F * level));
+		desc.add(getAreaDisplay(2.0F + 0.8F * level));
 		desc.add(getDurationDisplay(getPotionDuration(player), false));
 		desc.add(getExhaustionDisplay(getExhaustion()));
 	}
@@ -113,7 +113,7 @@ public class LeapingBlow extends SkillActive
 
 	/** Returns player's base damage (which includes all attribute bonuses) plus 1.0F per level */
 	private float getDamage(EntityPlayer player) {
-		return (float)(level + player.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue());
+		return (float)(player.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue() * (0.4F + 0.1F * level));
 	}
 
 	/** Duration of weakness effect; used for tooltip display only */

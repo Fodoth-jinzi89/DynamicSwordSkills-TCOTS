@@ -142,6 +142,9 @@ public class SwordBasic extends SkillActive implements IComboSkill, ILockOnTarge
 	}
 
 	private float getDamageTolerance() {
+		if(combo != null && combo.getDamage() > 0.0F) {
+			return Math.max(0.5F * level, 0.05F*combo.getDamage());
+		} else
 		return (0.5F * level);
 	}
 
@@ -322,7 +325,11 @@ public class SwordBasic extends SkillActive implements IComboSkill, ILockOnTarge
 	@Override
 	public float onImpact(EntityPlayer player, EntityLivingBase entity, float amount) {
 		if (combo != null && !combo.isFinished()) {
-			amount += combo.getNumHits();
+			amount = amount*(1.0F
+					+0.15F*(combo.getNumHits())
+					+0.10F*Math.max(combo.getNumHits()-3, 0)
+					+0.075F*Math.max(combo.getNumHits()-6, 0)
+					+0.05F*Math.max(combo.getNumHits()-9, 0));
 		}
 		return amount;
 	}

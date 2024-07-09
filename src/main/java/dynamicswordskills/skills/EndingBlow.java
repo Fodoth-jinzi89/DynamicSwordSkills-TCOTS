@@ -39,6 +39,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
 /**
@@ -113,6 +114,7 @@ public class EndingBlow extends SkillActive
 	@SideOnly(Side.CLIENT)
 	public void addInformation(List<String> desc, EntityPlayer player) {
 		desc.add(getDamageDisplay(level * 20, true) + "%");
+		desc.add(StatCollector.translateToLocalFormatted(getTranslationKey() + ".info.missingHealth", (int)(level * 2)));
 		desc.add(getDurationDisplay(getDuration(), true));
 		desc.add(getExhaustionDisplay(getExhaustion()));
 	}
@@ -129,7 +131,7 @@ public class EndingBlow extends SkillActive
 
 	/** Returns the duration of the defense down effect */
 	public int getDuration() {
-		return 45 - (level * 5);
+		return 20-(4*level);
 	}
 
 	/** Returns the {@link #lastActivationTime} */
@@ -181,7 +183,7 @@ public class EndingBlow extends SkillActive
 	public boolean keyPressed(Minecraft mc, KeyBinding key, EntityPlayer player) {
 		if (key == DSSKeyHandler.keys[DSSKeyHandler.KEY_FORWARD].getKey() || (Config.allowVanillaControls() && key == mc.gameSettings.keyBindForward)) {
 			if (ticksTilFail == 0) {
-				ticksTilFail = 6;
+				ticksTilFail = 12*level;
 			}
 			++keyPressed;
 		} else if (canExecute(player)) {
@@ -203,7 +205,7 @@ public class EndingBlow extends SkillActive
 
 	@Override
 	protected boolean onActivated(World world, EntityPlayer player) {
-		activeTimer = 3; // gives server some time for client attack to occur
+		activeTimer = 10*level; // gives server some time for client attack to occur
 		entityHit = null;
 		IComboSkill skill = DSSPlayerInfo.get(player).getComboSkill();
 		if (skill != null && skill.getCombo() != null) {
@@ -281,6 +283,7 @@ public class EndingBlow extends SkillActive
 		IComboSkill combo = DSSPlayerInfo.get(player).getComboSkill();
 		if (combo != null && combo.isComboInProgress() && entity == combo.getCombo().getLastEntityHit() && combo.getCombo().getConsecutiveHits() > 1) {
 			amount *= 1.0F + (level * 0.2F);
+			amount += (entity.getMaxHealth() - entity.getHealth())*(level * 0.02F);
 			PlayerUtils.playSoundAtEntity(player.worldObj, player, ModInfo.SOUND_MORTALDRAW, 0.4F, 0.5F);
 			entityHit = entity;
 		} else if (!player.worldObj.isRemote) {
@@ -300,7 +303,7 @@ public class EndingBlow extends SkillActive
 	private void onFail(EntityPlayer player, boolean timedOut) {
 		if (!player.capabilities.isCreativeMode) {
 			DSSPlayerInfo skills = DSSPlayerInfo.get(player);
-			int t = getDuration() * (timedOut ? 2 : 1);
+			int t = getDuration() * (timedOut ? 2 : 0);
 			skills.setAttackCooldown(t);
 			PacketDispatcher.sendTo(new ActionTimePacket(skills.getAttackTime(), true), (EntityPlayerMP) player);
 		}

@@ -53,7 +53,7 @@ public class EntityLeapingBlow extends EntityThrowable
 	/** Skill level of swordsman; used in many calculations */
 	private int level = 0;
 	
-	private static final float BASE_SIZE = 1.0F, HEIGHT = 0.5F;
+	private static final float BASE_SIZE = 2.0F, HEIGHT = 0.5F;
 	
 	public EntityLeapingBlow(World world) {
 		super(world);
@@ -92,7 +92,7 @@ public class EntityLeapingBlow extends EntityThrowable
 	
 	/** Max distance (squared) from thrower that damage can still be applied */
 	private double getRangeSquared() {
-		return (3.0D + level) * (3.0D + level);
+		return (3.0D + 2.0F*level) * (3.0D + 2.0F*level);
 	}
 	
 	/** Duration of weakness effect */
@@ -102,7 +102,7 @@ public class EntityLeapingBlow extends EntityThrowable
 	
 	/** Returns area within which to search for targets each tick */
 	private AxisAlignedBB getAoE() {
-		return boundingBox.expand((0.25F * level), 0.0F, (0.25F * level));
+		return boundingBox.expand((0.8F * level), 0.0F, (0.8F * level));
 	}
 
 	@Override
@@ -154,7 +154,7 @@ public class EntityLeapingBlow extends EntityThrowable
 					if (entity.attackEntityFrom(DamageUtils.causeIndirectSwordDamage(this, getThrower()), damage)) {
 						PlayerUtils.playSoundAtEntity(worldObj, entity, ModInfo.SOUND_HURT_FLESH, 0.4F, 0.5F);
 						if (entity instanceof EntityLivingBase) {
-							((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.weakness.id, 60));
+							((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.weakness.id, 60, level));
 						}
 					}
 				}

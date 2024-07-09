@@ -89,7 +89,7 @@ public class MortalDraw extends SkillActive
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(List<String> desc, EntityPlayer player) {
-		desc.add(getDamageDisplay(100, true) + "%");
+		desc.add(getDamageDisplay(100+(30 * level), true) + "%");
 		desc.add(getTimeLimitDisplay(getAttackTime() - DELAY));
 		desc.add(getExhaustionDisplay(getExhaustion()));
 	}
@@ -121,12 +121,12 @@ public class MortalDraw extends SkillActive
 	 * Set the attackTimer to this amount upon activation.
 	 */
 	private int getAttackTime() {
-		return level + DELAY + 2;
+		return level*2 + DELAY + 2;
 	}
 
 	/** Returns the amount by which damage will be increased, as a percent: [damage + (damage * x)] */
 	private int getDamageMultiplier() {
-		return 100 + (10 * level);
+		return 100 + (30 * level);
 	}
 
 	@Override

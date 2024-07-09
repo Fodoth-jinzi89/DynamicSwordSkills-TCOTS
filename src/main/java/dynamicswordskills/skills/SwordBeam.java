@@ -78,7 +78,7 @@ public class SwordBeam extends SkillActive
 	public void addInformation(List<String> desc, EntityPlayer player) {
 		desc.add(getDamageDisplay(getDamageFactor(player), false) + "%");
 		desc.add(getRangeDisplay(12 + level));
-		desc.add(StatCollector.translateToLocalFormatted(getTranslationKey() + ".info.health", String.format("%.1f", Config.getHealthAllowance(level) / 2.0F)));
+		desc.add(StatCollector.translateToLocalFormatted(getTranslationKey() + ".info.health", level*20));
 		desc.add(getExhaustionDisplay(getExhaustion()));
 	}
 
@@ -99,7 +99,7 @@ public class SwordBeam extends SkillActive
 
 	/** Returns true if players current health is within the allowed limit */
 	private boolean checkHealth(EntityPlayer player) {
-		return player.capabilities.isCreativeMode || PlayerUtils.getHealthMissing(player) <= Config.getHealthAllowance(level);
+		return player.capabilities.isCreativeMode || player.getHealth() >= player.getMaxHealth()*(1.0F-Config.getHealthAllowance(level));
 	}
 
 	/** The percent of base sword damage that should be inflicted, as an integer */

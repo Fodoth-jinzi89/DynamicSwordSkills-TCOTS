@@ -98,7 +98,7 @@ public class Dash extends SkillActive
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(List<String> desc, EntityPlayer player) {
-		desc.add(getDamageDisplay(getDamage(), false));
+		desc.add(getDamageDisplay(level * 40, false) + "%");
 		desc.add(StatCollector.translateToLocalFormatted(getTranslationKey() + ".info.knockback", String.format("%.1f", getKnockback())));
 		desc.add(getRangeDisplay(getRange()));
 		desc.add(StatCollector.translateToLocalFormatted(getTranslationKey() + ".info.min_range", String.format("%.1f", getMinDistance())));
@@ -126,9 +126,15 @@ public class Dash extends SkillActive
 	}
 
 	/** Damage is base damage plus one per level */
+	@Deprecated
 	private int getDamage() {
-		return (2 + level);
+		return 10 * level;
 	}
+	
+	private float getDamage(EntityPlayer player) {
+		return (float) (0.4* level * player.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue());
+	}
+	
 
 	/** Returns base knockback strength, not accounting for distance traveled */
 	private float getKnockback() {
@@ -282,7 +288,7 @@ public class Dash extends SkillActive
 				sf *= 0.3D;
 			}
 			if (speed > 0.075D && (distance - bbMod) > getMinDistance() && distance < (getRange() + 1.0D) && player.getDistanceSqToEntity(target) < 6.0D) {
-				float dmg = (float)(sf * (float)getDamage() * distance / getRange());
+				float dmg = (float)(sf * getDamage(player) * distance / getRange());
 				impactTime = 5; // time player will be immune to damage from the target entity
 				target.attackEntityFrom(DamageSource.causePlayerDamage(player), dmg);
 				if (target instanceof EntityLivingBase) {

@@ -105,12 +105,12 @@ public class SwordBreak extends SkillActive
 
 	/** Number of ticks that skill will be considered active */
 	private int getActiveTime() {
-		return 9 + (level / 2);
+		return 9 + (level * 2);
 	}
 
 	/** Number of ticks before player may attempt to use this skill again */
 	private int getUseDelay() {
-		return (5 - (level / 2));
+		return (5 - (level));
 	}
 
 	/** Maximum amount of damage that may be caused to the opponent's weapon */
@@ -122,7 +122,7 @@ public class SwordBreak extends SkillActive
 	 * Returns the strength of the knockback effect when an attack is parried
 	 */
 	public float getKnockbackStrength() {
-		return 0.5F + (0.1F * level); // 0.5F is the base line per blocking with a shield
+		return 1.0F + (0.2F * level); // 0.5F is the base line per blocking with a shield
 	}
 
 	@Override

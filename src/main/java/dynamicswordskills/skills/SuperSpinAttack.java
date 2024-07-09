@@ -11,6 +11,7 @@ import dynamicswordskills.ref.Config;
 import dynamicswordskills.util.PlayerUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.StatCollector;
 
@@ -62,7 +63,7 @@ public class SuperSpinAttack extends SkillBase implements ISkillModifier
 
 	/** Returns true if players current health is within the allowed limit */
 	private boolean checkHealth(EntityPlayer player) {
-		return player.capabilities.isCreativeMode || PlayerUtils.getHealthMissing(player) <= Config.getHealthAllowance(level);
+		return player.capabilities.isCreativeMode || player.getHealth() >= player.getMaxHealth()*(1.0F-Config.getHealthAllowance(level));
 	}
 
 	/** Returns the range modifier to apply to attack reach while spinning */

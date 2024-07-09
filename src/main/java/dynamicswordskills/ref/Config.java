@@ -300,7 +300,7 @@ public class Config
 	public static int getSkillSwordLootWeight() { return skillSwordLootWeight; }
 	/** Returns amount of health that may be missing and still be able to activate certain skills (e.g. Sword Beam) */
 	public static float getHealthAllowance(int level) {
-		return (requireFullHealth ? 0.0F : (0.6F * level));
+		return (requireFullHealth ? 0.0F : (0.2F * level));
 	}
 	/** @return true if the skill has been disabled either by the server or client settings, or if it is null */
 	public static final boolean isSkillDisabled(EntityPlayer player, @Nullable SkillBase skill) {

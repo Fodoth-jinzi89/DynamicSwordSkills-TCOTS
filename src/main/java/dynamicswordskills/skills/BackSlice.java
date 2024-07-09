@@ -109,7 +109,7 @@ public class BackSlice extends SkillActive
 		desc.add(StatCollector.translateToLocalFormatted(getTranslationKey() + ".info.angle", 360 - (2 * getAttackAngle())));
 		String chance = String.format("%.2f", getDisarmorChance(null, player.getHeldItem(), level));
 		desc.add(StatCollector.translateToLocalFormatted(getTranslationKey() + ".info.chance", chance));
-		desc.add(getDamageDisplay(level * 10, true) + "%");
+		desc.add(getDamageDisplay(level * 40, true) + "%");
 		desc.add(getExhaustionDisplay(getExhaustion()));
 	}
 
@@ -157,7 +157,7 @@ public class BackSlice extends SkillActive
 		} else {
 			chance -= 1.0F;
 		}
-		return chance;
+		return 0.0F;
 	}
 
 	@Override
@@ -312,7 +312,7 @@ public class BackSlice extends SkillActive
 		impacted = true;
 		if (isActive() && dodgeTimer <= (getActiveTime() - 5)) { // can strike any time after 5 ticks have passed
 			if (!TargetUtils.isTargetInFrontOf(entity, player, getAttackAngle())) {
-				amount *= 1.0F + (level * 0.1F);
+				amount *= 1.0F + (level * 0.40F);
 				PlayerUtils.playSoundAtEntity(player.worldObj, player, ModInfo.SOUND_MORTALDRAW, 0.4F, 0.5F);
 				success = true;
 			}
